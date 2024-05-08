@@ -43,7 +43,7 @@ export class BookService {
      */
     async getBooks(page: number, limit: number): Promise<IBook[]> {
 
-        const books: IBook[] = await this.bookDal.getBooks(page, limit);
+        const books: IBook[] = await this.bookDal.searchBook(page, limit,"");
         return books;
     }
 
@@ -95,7 +95,7 @@ export class BookService {
      * @returns 
      */
     async searchBook(searchText:string,page:number,limit:number): Promise<IBook[]> {
-        const books: IBook[] = await this.bookDal.searchBook(searchText,page,limit);
+        const books: IBook[] = await this.bookDal.searchBook(page,limit,searchText);
         return books;
     }
 }

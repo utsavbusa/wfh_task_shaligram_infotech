@@ -27,7 +27,7 @@ export class BookController{
         }
     }
 
-    @httpPost('/',AuthMiddleware.handler,IsAdminMiddleware.handler)
+    @httpPost('/',AuthMiddleware,IsAdminMiddleware)
     async createBook(req:Request,res:Response,next:NextFunction){
         const { title, authorId, description, price, categoryId, isbn } = req.body;
         try {
@@ -45,7 +45,7 @@ export class BookController{
         }
     }
 
-    @httpPut('/:id',AuthMiddleware.handler,IsAdminMiddleware.handler)
+    @httpPut('/:id',AuthMiddleware,IsAdminMiddleware)
     async updateBook(req:Request,res:Response,next:NextFunction){
         const { id } = req.params;
         const { title, authorId, description, price, categoryId, isbn } = req.body;
@@ -64,7 +64,7 @@ export class BookController{
         }
     }
 
-    @httpDelete('/:id',AuthMiddleware.handler,IsAdminMiddleware.handler)
+    @httpDelete('/:id',AuthMiddleware,IsAdminMiddleware)
     async deleteBook(req:Request,res:Response,next:NextFunction){
         const { id } = req.params;
         try {
@@ -78,9 +78,8 @@ export class BookController{
 
     @httpGet('/search')
     async searchBook(req:Request,res:Response,next:NextFunction){
-        const { searchText, page, limit } = req.query;
+        const { searchText="", page, limit } = req.query;
         try {
-            if(!searchText) throw new ApiError(400, 'Search text is required');
             if(!page || !limit) throw new ApiError(400, 'Page and limit query parameters are required')
             const pageNumber = typeof page === 'string' ? parseInt(page, 10) : 1;
             const limitNumber = typeof limit === 'string' ? parseInt(limit, 10) : 10;

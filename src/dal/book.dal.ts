@@ -123,8 +123,8 @@ export class BookRepository {
      * @param limit 
      * @returns 
      */
-    async searchBook(searchText:string,page:number,limit:number): Promise<IBook[]> {
-        const books: IBook[] = await Book.aggregate([
+    async searchBook(page:number,limit:number,searchText?:string): Promise<IBook[]> {
+        const pipeline: any[] = [
             {
                 $skip: (page - 1) * limit
             },
@@ -154,18 +154,6 @@ export class BookRepository {
                 $unwind: "$categories"
             },
             {
-                $match: {
-
-                    $or: [
-                        { title: { $regex: searchText, $options: 'i' } },
-                        { isbn: { $regex: searchText, $options: 'i' } },
-                        { description: { $regex: searchText, $options: 'i' } },
-                        { 'author.name': { $regex: searchText, $options: 'i' } },
-                        { 'categories.name': { $regex: searchText, $options: 'i' } }
-                    ]
-                }
-            },
-            {
                 $addFields: {
                     authorName: "$author.name",
                     categoryName: "$categories.name"
@@ -173,7 +161,26 @@ export class BookRepository {
             },
             {
                 $project: { author: 0, categories: 0, createdAt: 0, updatedAt: 0 }
-            }]);
+            },
+            ...(searchText?.trim()!=="" ? [
+                {
+                    $match: {
+                        $or: [
+                            { title: { $regex: searchText, $options: 'i' } },
+                            { isbn: { $regex: searchText, $options: 'i' } },
+                            { description: { $regex: searchText, $options: 'i' } },
+                            { 'authorName': { $regex: searchText, $options: 'i' } },
+                            { 'categoryName': { $regex: searchText, $options: 'i' } }
+                        ]
+                    }
+                }
+            ] : [])
+        ];
+
+        const books: IBook[] = await Book.aggregate(pipeline);
+        // console.log(pipeline);
+        console.log(searchText)
+        console.log(books,"books")
         return books;
     }
 

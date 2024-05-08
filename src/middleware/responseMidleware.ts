@@ -7,6 +7,9 @@ declare global {
         interface Response {
             jsonResponse(data: any,message: string, statusCode?: number): void;
         }
+        interface Request{
+            user?:any
+        }
     }
 }
 

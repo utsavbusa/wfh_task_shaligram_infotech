@@ -24,7 +24,7 @@ export class CategoryController{
         }
     }
 
-    @httpPost('/',AuthMiddleware.handler,IsAdminMiddleware.handler)
+    @httpPost('/',AuthMiddleware,IsAdminMiddleware)
     async createCategory(req:Request,res:Response,next:NextFunction){
         const { name } = req.body;
         try {
@@ -40,7 +40,7 @@ export class CategoryController{
         }
     }
 
-    @httpPut('/:id',AuthMiddleware.handler,IsAdminMiddleware.handler)
+    @httpPut('/:id',AuthMiddleware,IsAdminMiddleware)
     async updateCategory(req:Request,res:Response,next:NextFunction){
         const { id } = req.params;
         const { name } = req.body;
@@ -57,7 +57,7 @@ export class CategoryController{
         }
     }
 
-    @httpDelete('/:id',AuthMiddleware.handler,IsAdminMiddleware.handler)
+    @httpDelete('/:id',AuthMiddleware,IsAdminMiddleware)
     async deleteCategory(req:Request,res:Response,next:NextFunction){
         const { id } = req.params;
         try {

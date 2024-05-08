@@ -32,7 +32,7 @@ export class AuthorController {
         return await this.authorService.getAuthors(1, 10);
     }
 
-    @httpPost('/',AuthMiddleware.handler,IsAdminMiddleware.handler)
+    @httpPost('/',AuthMiddleware,IsAdminMiddleware)
     async createAuthor(req: Request, res: Response, next: NextFunction) {
         const { name, bio, nationlity } = req.body;
         try {
@@ -48,7 +48,7 @@ export class AuthorController {
         }
     }
 
-    @httpPut('/:id',AuthMiddleware.handler,IsAdminMiddleware.handler)
+    @httpPut('/:id',AuthMiddleware,IsAdminMiddleware)
     async updateAuthor(req: Request, res: Response, next: NextFunction) {
         const { id } = req.params;
         const { name, bio, nationlity } = req.body;
@@ -66,7 +66,7 @@ export class AuthorController {
         }
     }
 
-    @httpDelete('/:id',AuthMiddleware.handler,IsAdminMiddleware.handler)
+    @httpDelete('/:id',AuthMiddleware,IsAdminMiddleware)
     async deleteAuthor(req: Request, res: Response, next: NextFunction) {
         const { id } = req.params;
         try {
@@ -78,7 +78,7 @@ export class AuthorController {
         }
     }
 
-    @httpGet('/search',AuthMiddleware.handler,IsAdminMiddleware.handler)
+    @httpGet('/search',AuthMiddleware,IsAdminMiddleware)
     async searchAuthor(req: Request, res: Response, next: NextFunction) {
         const { name } = req.query;
         try {

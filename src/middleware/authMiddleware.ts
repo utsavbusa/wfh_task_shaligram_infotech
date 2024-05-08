@@ -2,15 +2,12 @@ import { Request, Response, NextFunction } from 'express';
 import { injectable } from 'inversify';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { ApiError } from '../utils/ApiError';
-
-interface CustomRequest extends Request {
-    user?: JwtPayload; // Use JwtPayload for user property
-}
+import { BaseMiddleware } from 'inversify-express-utils';
 
 @injectable()
-export class AuthMiddleware {
+export class AuthMiddleware extends BaseMiddleware {
 
-    public static handler(req: CustomRequest, res: Response, next: NextFunction): void {
+    handler(req: Request, res: Response, next: NextFunction): void {
         try {
             let token: string | undefined = req.cookies?.accessToken || req.header('Authorization')?.replace("Bearer ", "");
             if (!token) {
