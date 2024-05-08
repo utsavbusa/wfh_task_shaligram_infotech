@@ -46,7 +46,6 @@ export class CategoryRepository {
         if(resultCategory.modifiedCount === 0){
             throw new ApiError(400,"Category not updated");
         }
-        return ;
     }
 
 
@@ -60,6 +59,5 @@ export class CategoryRepository {
         if(resultCategory.deletedCount === 0){
             throw new ApiError(400,"Category not deleted");
         }
-        return ;
     }
 }

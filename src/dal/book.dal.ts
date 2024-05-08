@@ -102,7 +102,6 @@ export class BookRepository {
      */
     async deleteBook(id: string): Promise<void> {
         await Book.deleteOne({ _id: id });
-        return;
     }
 
     /**
@@ -178,9 +177,6 @@ export class BookRepository {
         ];
 
         const books: IBook[] = await Book.aggregate(pipeline);
-        // console.log(pipeline);
-        console.log(searchText)
-        console.log(books,"books")
         return books;
     }
 

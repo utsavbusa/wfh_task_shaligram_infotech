@@ -70,7 +70,6 @@ export class BookService {
         if (!isCategoryIdValid) throw new ApiError(400, 'Category id is not valid');
 
         await this.bookDal.updateBook(id, title, authorId, description, price, categoryId, isbn);
-        return;
     }
 
     /**
@@ -84,7 +83,6 @@ export class BookService {
         if(!isValidId) throw new ApiError(400, 'Book id is not valid');
 
         await this.bookDal.deleteBook(id);
-        return;
     }
 
     /**

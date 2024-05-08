@@ -1,6 +1,5 @@
 import { inject } from 'inversify';
-import { httpDelete, httpGet, httpPost, httpPut } from 'inversify-express-utils';
-import { controller } from 'inversify-express-utils';
+import { httpDelete, httpGet, httpPost, httpPut,controller } from 'inversify-express-utils';
 import { BookService } from '../services';
 import { ErrorHandler } from '../handler/error.handler';
 import { NextFunction,Request,Response } from 'express';

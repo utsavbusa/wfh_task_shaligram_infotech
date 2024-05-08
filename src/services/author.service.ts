@@ -47,7 +47,6 @@ export class AuthorService {
         }
     
         await this.authDal.updateAuthor(id, name, bio, nationlity);
-        return;
     }
 
     /**
@@ -61,7 +60,6 @@ export class AuthorService {
             throw new ApiError(400, 'Author id is not valid');
         }
         await this.authDal.deleteAuthor(id);
-        return;
     }
 
     /**

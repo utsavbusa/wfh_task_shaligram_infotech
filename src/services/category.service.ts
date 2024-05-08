@@ -39,7 +39,6 @@ export class CategoryService{
         if(!isCategoryIdValid) throw new ApiError(400,"Category id is not valid");
 
         await this.categoryDal.updateCategory(id,name);
-        return;
     }
 
     /**
@@ -52,7 +51,6 @@ export class CategoryService{
         if(!isCategoryIdValid) throw new ApiError(400,"Category id is not valid");
 
         await this.categoryDal.deleteCategory(id);
-        return;
     }
 
 

@@ -48,7 +48,7 @@ export class AuthorRepository {
         if (resultAuthor.modifiedCount === 0) {
             throw new ApiError(400, "Author not updated");
         }
-        return;
+
     }
 
     /**
@@ -61,7 +61,7 @@ export class AuthorRepository {
         if (resultAuthor.deletedCount === 0) {
             throw new ApiError(400, "Author not deleted");
         }
-        return;
+
     }
 
     /**
