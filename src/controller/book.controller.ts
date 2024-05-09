@@ -14,12 +14,12 @@ export class BookController{
     
     @httpGet('/')
     async getBooks(req: Request, res: Response, next: NextFunction) {
-        const { page, limit } = req.query;
+        const { searchText="", page, limit } = req.query;
         try {
             if(!page || !limit) throw new ApiError(400, 'Page and limit query parameters are required')
             const pageNumber = typeof page === 'string' ? parseInt(page, 10) : 1;
             const limitNumber = typeof limit === 'string' ? parseInt(limit, 10) : 10;
-            const books = await this.bookService.getBooks(pageNumber, limitNumber);
+            const books = await this.bookService.searchBook(searchText as string,pageNumber, limitNumber);
             return res.jsonResponse(books,"success",200);
         } catch (error) {
             this.errorHandler.handleError(error, req, res,null);
@@ -75,9 +75,10 @@ export class BookController{
         }
     }
 
+    // unusefull function here is because it learning purpose
     @httpGet('/search')
     async searchBook(req:Request,res:Response,next:NextFunction){
-        const { searchText="", page, limit } = req.query;
+    const { searchText="", page, limit } = req.query;
         try {
             if(!page || !limit) throw new ApiError(400, 'Page and limit query parameters are required')
             const pageNumber = typeof page === 'string' ? parseInt(page, 10) : 1;
