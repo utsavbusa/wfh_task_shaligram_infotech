@@ -29,7 +29,6 @@ export class AuthorController {
         } catch (error) {
             this.errorHandler.handleError(error, req, res, null)
         }
-        return await this.authorService.getAuthors(1, 10);
     }
 
     @httpPost('/',AuthMiddleware,IsAdminMiddleware)
