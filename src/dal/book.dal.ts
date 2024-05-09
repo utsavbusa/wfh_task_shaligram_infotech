@@ -124,12 +124,7 @@ export class BookRepository {
      */
     async searchBook(page:number,limit:number,searchText?:string): Promise<IBook[]> {
         const pipeline: any[] = [
-            {
-                $skip: (page - 1) * limit
-            },
-            {
-                $limit: limit
-            },
+           
             {
                 $lookup: {
                     from: 'authors',
@@ -173,7 +168,13 @@ export class BookRepository {
                         ]
                     }
                 }
-            ] : [])
+            ] : []),
+             {
+                $skip: (page - 1) * limit
+            },
+            {
+                $limit: limit
+            }
         ];
 
         const books: IBook[] = await Book.aggregate(pipeline);
