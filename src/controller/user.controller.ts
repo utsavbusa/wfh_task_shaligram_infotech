@@ -1,5 +1,5 @@
 import { inject } from 'inversify';
-import { httpGet } from 'inversify-express-utils';
+import { httpPost } from 'inversify-express-utils';
 import { controller } from 'inversify-express-utils';
 import { UserService } from '../services';
 import { ErrorHandler } from '../handler/error.handler';
@@ -16,7 +16,7 @@ export class UserController {
     ) {
     }
 
-    @httpGet('/register')
+    @httpPost('/register')
     async register(req: Request, res: Response, next: NextFunction) {
         try{
             const {name="",email="",password="",isAuther=false,bio="",nationlity="",role=""} = req.body;
@@ -50,7 +50,7 @@ export class UserController {
         }
     }
 
-    @httpGet('/login')
+    @httpPost('/login')
     async login(req: Request, res: Response, next: NextFunction) {
         const { email = "", password = "" } = req.body;
         try{
