@@ -1,26 +1,20 @@
-import Joi from "joi";
+import Joi, { string } from "joi";
 
 export const permissionSchema = {
-    create:{
-        body:{
-            perName:Joi.string().required(),
-            roleId:Joi.string().required(),
-            moduleId:Joi.string().required()
-        }
-    },
     update:{
-        params:{
-            id:Joi.string().required()
-        },
         body:{
-            perName:Joi.string().required(),
-            roleId:Joi.string().required(),
-            moduleId:Joi.string().required()
-        }
-    },
-    delete:{
-        params:{
-            id:Joi.string().required()
+            roleId:string,
+            data:Joi.array().items(
+                Joi.object({
+                    moduleId: Joi.string().required(),
+                    permission: Joi.object({
+                        read: Joi.boolean(),
+                        write: Joi.boolean(),
+                        update:Joi.boolean(),
+                        delete:Joi.boolean()
+                    }).required()
+                }).options({ allowUnknown: false })
+            )
         }
     }
 }

@@ -18,5 +18,13 @@ export const moduleSchema = {
         params:{
             id:Joi.string().required()
         }
+    },
+    get:{
+        query:{
+            userId:Joi.string(),
+            name:Joi.string(),
+            page:Joi.number().integer().min(-1).required(),
+            limit:Joi.number()
+        }
     }
 }

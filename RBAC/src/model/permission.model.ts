@@ -1,15 +1,30 @@
 import mongoose,{Document,Model,Schema} from "mongoose";
 
 interface IPermission extends Document{
-    pno:number,
+    read:boolean,
+    write:boolean,
+    update:boolean,
+    delete:boolean,
     roleId:Schema.Types.ObjectId,
     moduleId:Schema.Types.ObjectId
 }
 
 const PermissionSchema:Schema<IPermission> = new Schema({
-    pno:{
-        type:Number,
-        default:0
+    read:{
+        type:Boolean,
+        default:false
+    },
+    write:{
+        type:Boolean,
+        default:false
+    },
+    update:{
+        type:Boolean,
+        default:false
+    },
+    delete:{
+        type:Boolean,
+        default:false
     },
     roleId:{
         type:Schema.Types.ObjectId,

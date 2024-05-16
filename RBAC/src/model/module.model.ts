@@ -1,13 +1,18 @@
 import mongoose,{Document,Schema,Model} from "mongoose";
 
 interface IModule extends Document{
-    name: string
+    name: string,
+    isDeleted:boolean
 }
 
 const ModuleSchema:Schema<IModule> = new Schema({
     name:{
         type: String,
         unique:true
+    },
+    isDeleted:{
+        type:Boolean,
+        default:false
     }
 },{timestamps:true})
 
