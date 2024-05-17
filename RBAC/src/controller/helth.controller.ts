@@ -6,6 +6,6 @@ export class HealthController{
 
     @httpGet("/")
     async getApi(req:Request,res:Response,next:NextFunction){
-        res.jsonResponse(null,"server is running fine",201)
+        res.jsonResponse(null,"server is running fine",200)
     }
 }

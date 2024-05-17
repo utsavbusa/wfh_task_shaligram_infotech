@@ -3,6 +3,7 @@ import { IModule, ModuleModel } from "src/model/module.model";
 import mongoose from "mongoose";
 import { IRole, PermissionModel, RoleModel } from "@model";
 import { ApiError } from "@utils";
+import { UserRole } from "@config";
 
 interface ISModule {
     userId?: string,
@@ -20,6 +21,7 @@ export class ModuleService {
         }
 
         const session = await mongoose.startSession();
+        session.startTransaction();
         try {
             const moduleResult = new ModuleModel({ name });
             await moduleResult.save({ session })
@@ -27,7 +29,6 @@ export class ModuleService {
             const moduleId: string = moduleResult._id;
 
             const roles: IRole[] = await RoleModel.find().session(session);
-
 
             // Initialize an array to store the bulk operations
             const bulkOps: any = [];
@@ -38,18 +39,16 @@ export class ModuleService {
                     insertOne: {
                         document: {
                             roleId: role._id,
-                            moduleId: moduleId
+                            moduleId: moduleId,
+                            read: role.name === UserRole.Admin,
+                            write: role.name === UserRole.Admin,
+                            update: role.name === UserRole.Admin,
+                            delete: role.name === UserRole.Admin,
                         }
                     }
                 });
             });
-
-            // TODO : - console.log(bulkOps);
-            //TODO : - watch result of bulkwrite 
-
-            // Execute the bulk write operation
             await PermissionModel.bulkWrite(bulkOps, { session });
-
             await session.commitTransaction();
 
         } catch (error) {

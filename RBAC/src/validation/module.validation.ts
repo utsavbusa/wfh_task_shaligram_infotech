@@ -2,29 +2,29 @@ import Joi from "joi";
 
 export const moduleSchema = {
     create:{
-        body:{
+        body:Joi.object({
             name:Joi.string().required()
-        }
+        }).options({ allowUnknown: false })
     },
     update:{
-        params:{
+        params:Joi.object({
             id:Joi.string().required()
-        },
-        body:{
+        }),
+        body:Joi.object({
             name:Joi.string().required()
-        }
+        }).options({ allowUnknown: false })
     },
     delete:{
-        params:{
+        params:Joi.object({
             id:Joi.string().required()
-        }
+        }).options({ allowUnknown: false })
     },
     get:{
-        query:{
+        query:Joi.object({
             userId:Joi.string(),
             name:Joi.string(),
             page:Joi.number().integer().min(-1).required(),
             limit:Joi.number()
-        }
+        }).options({ allowUnknown: false })
     }
 }

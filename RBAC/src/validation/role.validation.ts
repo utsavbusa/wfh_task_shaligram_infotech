@@ -2,21 +2,22 @@ import Joi from "joi";
 
 export const roleSchema = {
     create:{
-        body:{
+        body:Joi.object({
             name:Joi.string().required()
         }
-    },
+    ).options({ allowUnknown: false })
+},
     update:{
-        params:{
+        params:Joi.object({
             id:Joi.string().required()
-        },
-        body:{
+        }),
+        body:Joi.object({
             name:Joi.string().required()
-        }
+        }).options({ allowUnknown: false })
     },
     delete:{
-        params:{
+        params:Joi.object({
             id:Joi.string().required()
-        }
+        }).options({ allowUnknown: false })
     }
 }

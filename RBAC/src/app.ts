@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import cookieParser from "cookie-parser";
 import { ResponseMiddleware } from "@middleware";
+import { handleError } from "./utils/error.handler";
 
 const app = express();
 
@@ -24,7 +25,7 @@ app.use((req:Request,res:Response,next:NextFunction)=>{
 
 app.use("/api/v1",appInstance)
 
-//TODO error handle middleware are not here
+app.use(handleError)
 
 const port = process.env.PORT ?? 4000
 

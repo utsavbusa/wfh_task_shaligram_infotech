@@ -49,6 +49,4 @@ const varible: any = {
     },
 }
 
-const permissionMap
-
 export { varible }

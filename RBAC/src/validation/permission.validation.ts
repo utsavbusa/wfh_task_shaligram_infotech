@@ -2,7 +2,7 @@ import Joi, { string } from "joi";
 
 export const permissionSchema = {
     update:{
-        body:{
+        body:Joi.object({
             roleId:string,
             data:Joi.array().items(
                 Joi.object({
@@ -15,6 +15,6 @@ export const permissionSchema = {
                     }).required()
                 }).options({ allowUnknown: false })
             )
-        }
+        })
     }
 }

@@ -1,31 +1,41 @@
 import Joi from "joi";
 
-export const roleSchema = {
+export const userSchema = {
     create:{
-        body:{
+        body:Joi.object({
             name:Joi.string().required(),
             email:Joi.string().required(),
             password:Joi.string().required(),
-            roleId:Joi.string().required(),
-            phone:Joi.string(),
-            statusId:Joi.string()
-        }
+            roleId:Joi.string(),
+            phone:Joi.string()
+        }).options({ allowUnknown: false })
     },
     update:{
-        params:{
+        params:Joi.object({
             id:Joi.string().required()
-        },
-        body:{
+        }),
+        body:Joi.object({
             name:Joi.string(),
-            email:Joi.string(),
-            roleId:Joi.string(),
+            email: Joi.string().email(),
             phone:Joi.string(),
-            statusId:Joi.string()
-        }
+        }).options({ allowUnknown: false })
     },
     delete:{
-        params:{
+        params:Joi.object({
             id:Joi.string().required()
-        }
+        }).options({ allowUnknown: false })
+    },
+    search:{
+        query:Joi.object({
+            name:Joi.string(),
+            page: Joi.number().integer().min(-1).required(),
+            limit:Joi.number().integer(),
+        }).options({ allowUnknown: false })
+    },
+    roleChagne:{
+        body:Joi.object({
+            roleId:Joi.string().required(),
+            userId:Joi.string().required()
+        }).options({ allowUnknown: false })
     }
 }

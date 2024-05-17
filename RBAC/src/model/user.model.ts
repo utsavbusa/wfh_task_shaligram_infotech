@@ -20,7 +20,7 @@ const UserSchema:Schema<IUser> = new Schema({
         required:true
     },
     password:{
-        types:String,
+        type:String,
         required:true
     },
     phone:{
@@ -33,7 +33,7 @@ const UserSchema:Schema<IUser> = new Schema({
     roleId:{
         type:Schema.Types.ObjectId,
         ref:"Role",
-        required:true
+        default: new mongoose.Types.ObjectId('6646eb349ed86a63f3811061')
     },
     isDeleted:{
         type:Boolean,

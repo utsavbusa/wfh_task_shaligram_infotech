@@ -8,10 +8,10 @@ export class RoleService {
 
     async create(name: string): Promise<IRole> {
 
-        return await RoleModel.create(name)
+        return await RoleModel.create({name})
     }
 
-    async update({ id, name }: { id: string, name: string }): Promise<IRole> {
+    async update(id:string,name:string): Promise<IRole> {
 
         if (!(await RoleModel.findOne({
             $and:[
@@ -24,7 +24,7 @@ export class RoleService {
 
         const roleUpdate: IRole = await RoleModel.findByIdAndUpdate(
             { _id: id },
-            { $setOnInsert: { name } },
+            { $set: { name } },
             { upsert: true, new: true }
         )
         return roleUpdate
@@ -58,6 +58,6 @@ export class RoleService {
     }
 
     async get(): Promise<IRole[]> {
-        return await RoleModel.find();
+        return await RoleModel.find({isDeleted:false}).select("-isDeleted");
     }
 }

@@ -1,13 +1,12 @@
 import  jwt  from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-export function generateAccessToken(id:string,email:string,name:string,role:string) {
+export function generateAccessToken(id:string,email:string,name:string) {
     return jwt.sign(
         {
             _id: id,
             email: email,
-            name: name,
-            role: role
+            name: name
         },
         process.env.ACCESS_TOKEN_SECRET!,
         {

@@ -1,2 +1,5 @@
 export * from "./helth.controller"
 export * from "./module.controller"
+export * from "./permission.controller"
+export * from "./role.controller"
+export * from "./user.controller"
