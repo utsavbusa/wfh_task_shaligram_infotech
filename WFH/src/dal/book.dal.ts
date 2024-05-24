@@ -124,7 +124,6 @@ export class BookRepository {
      */
     async searchBook(page:number,limit:number,searchText?:string): Promise<IBook[]> {
         const pipeline: any[] = [
-           
             {
                 $lookup: {
                     from: 'authors',
@@ -161,7 +160,7 @@ export class BookRepository {
                     $match: {
                         $or: [
                             { title: { $regex: searchText, $options: 'i' } },
-                            { isbn: { $regex: searchText, $options: 'i' } },
+                            { isbn: { $where: searchText } },
                             { description: { $regex: searchText, $options: 'i' } },
                             { 'authorName': { $regex: searchText, $options: 'i' } },
                             { 'categoryName': { $regex: searchText, $options: 'i' } }
@@ -169,14 +168,13 @@ export class BookRepository {
                     }
                 }
             ] : []),
-             {
+            {
                 $skip: (page - 1) * limit
             },
             {
                 $limit: limit
             }
         ];
-
         const books: IBook[] = await Book.aggregate(pipeline);
         return books;
     }
