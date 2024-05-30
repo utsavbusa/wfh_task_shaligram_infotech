@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from "express";
 import { validate } from "express-validation";
 import { inject } from "inversify";
 import { controller, httpDelete, httpGet, httpPost, httpPut } from "inversify-express-utils";
-import { roleSchema } from "src/validation";
+import { roleSchema } from "@validation";
 
 @controller("/role")
 export class RoleController {
@@ -15,7 +15,7 @@ export class RoleController {
         @inject(Types.RoleService) private roleService: RoleService
     ) { }
 
-    @httpPost("/", Types.AuthMiddleware, RoleMiddleware.roleCheckMiddleware(UserRole.Admin), validate(roleSchema.create))
+    @httpPost("/", Types.AuthMiddleware, RoleMiddleware.roleCheckMiddleware([UserRole.Admin]), validate(roleSchema.create))
     async createCategory(req: Request, res: Response, next: NextFunction) {
         try {
 
@@ -32,7 +32,7 @@ export class RoleController {
     }
 
 
-    @httpPut("/:id", Types.AuthMiddleware, RoleMiddleware.roleCheckMiddleware(UserRole.Admin), validate(roleSchema.update))
+    @httpPut("/:id", Types.AuthMiddleware, RoleMiddleware.roleCheckMiddleware([UserRole.Admin]), validate(roleSchema.update))
     async updateCategory(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
@@ -49,7 +49,7 @@ export class RoleController {
     }
 
 
-    @httpDelete("/:id", Types.AuthMiddleware, RoleMiddleware.roleCheckMiddleware(UserRole.Admin), validate(roleSchema.delete))
+    @httpDelete("/:id", Types.AuthMiddleware, RoleMiddleware.roleCheckMiddleware([UserRole.Admin]), validate(roleSchema.delete))
     async deleteCategory(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
@@ -60,7 +60,7 @@ export class RoleController {
         }
     }
 
-    @httpGet("/", Types.AuthMiddleware)
+    @httpGet("/", Types.AuthMiddleware,RoleMiddleware.roleCheckMiddleware([UserRole.Admin]))
     async getCategory(req: Request, res: Response, next: NextFunction) {
         try {
             

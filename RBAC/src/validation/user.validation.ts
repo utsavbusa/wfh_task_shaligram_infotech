@@ -12,7 +12,7 @@ export const userSchema = {
     },
     update:{
         params:Joi.object({
-            id:Joi.string().required()
+            id:Joi.string()
         }),
         body:Joi.object({
             name:Joi.string(),

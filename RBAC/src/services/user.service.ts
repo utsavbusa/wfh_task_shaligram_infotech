@@ -2,16 +2,17 @@ import { injectable } from "inversify";
 import { IUser, RoleModel, UserModel } from "@model";
 import { ApiError, comparePassword, generateAccessToken } from "@utils";
 import bcrypt from 'bcrypt'
-import { boolean } from "joi";
+import { IUserService } from "./IUserService";
+import { Types } from "@config";
 
-interface ICUser {
+export interface ICUser {
     name: string,
     email: string,
     password: string,
     phone?: string
 }
 
-interface IUUser {
+export interface IUUser {
     id: string
     name?: string
     email?: string
@@ -20,14 +21,14 @@ interface IUUser {
     isActive?: boolean
 }
 
-interface ISUser {
+export interface ISUser {
     name: string
     page: number
     limit: number
 }
 
 @injectable()
-export class UserService {
+export class UserService implements IUserService{
 
     async create(data: ICUser): Promise<any> {
         const existingUser = await UserModel.findOne({ email: data.email });
@@ -139,7 +140,6 @@ export class UserService {
             },
         ]
 
-        // Pagination stages if 'page' is provided
         if (page !== -1) {
             pipeline.push(
                 { $skip: (page - 1) * limit },
@@ -147,7 +147,6 @@ export class UserService {
             );
         }
 
-        console.log(pipeline)
 
         return await UserModel.aggregate(pipeline);
     }

@@ -1,12 +1,12 @@
 import { Types, UserRole } from "@config";
 import { RoleMiddleware } from "@middleware";
-import { UserService } from "@services";
+import { type IUserService } from "@services";
 import { handleError } from "@utils";
 import { Request, Response, NextFunction } from "express";
 import { validate } from "express-validation";
 import { inject } from "inversify";
 import { controller, httpDelete, httpGet, httpPost, httpPut } from "inversify-express-utils";
-import { userSchema } from "src/validation/user.validation";
+import { userSchema } from "@validation";
 
 
 interface CookieOptions {
@@ -19,24 +19,24 @@ const options: CookieOptions = {
     secure: true
 };
 
-@controller("/user")
+@controller('/user')
 export class UserController {
 
-    constructor(
-        @inject(Types.UserService) private userService: UserService
+    constructor(@inject(Types.UserService)
+    private userService: IUserService
     ) { }
 
-    @httpPut('/role', Types.AuthMiddleware,RoleMiddleware.roleCheckMiddleware(UserRole.Admin),validate(userSchema.roleChagne))
+    @httpPut('/role', Types.AuthMiddleware, RoleMiddleware.roleCheckMiddleware([UserRole.Admin]), validate(userSchema.roleChagne))
     async roleChange(req: Request, res: Response, next: NextFunction) {
         try {
-            const {roleId,userId} = req.body
-            await this.userService.rolechange(userId,roleId);
-            res.jsonResponse({},"role change succsessfully")
+            const { roleId, userId } = req.body
+            await this.userService.rolechange(userId, roleId);
+            res.jsonResponse({}, "role change succsessfully")
         } catch (error) {
             handleError(error, req, res, next)
         }
     }
-    
+
     @httpPost("/register", validate(userSchema.create))
     async registerUser(req: Request, res: Response, next: NextFunction) {
         const { name, email, password, phone } = req.body
@@ -54,22 +54,22 @@ export class UserController {
     }
 
     @httpPost('/login')
-    async loginUser(req: Request, res: Response, next: NextFunction){
-        try{
-            const {email,password} = req.body
+    async loginUser(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { email, password } = req.body
 
-        const user =  await this.userService.login(email,password)
+            const user = await this.userService.login(email, password)
 
             res
                 .cookie("accessToken", user.accessToken, options)
                 .jsonResponse(user, "successfully Login user", 201);
 
-        }catch(error){
-            handleError(error,req,res,next)
+        } catch (error) {
+            handleError(error, req, res, next)
         }
     }
 
-    @httpPut('/:id', Types.AuthMiddleware, validate(userSchema.update))
+    @httpPut('/:id', Types.AuthMiddleware, validate(userSchema.update), RoleMiddleware.roleCheckMiddleware([UserRole.Admin]))
     async putRequest(req: Request, res: Response, next: NextFunction) {
         const { id } = req.params
 
@@ -83,7 +83,21 @@ export class UserController {
         }
     }
 
-    @httpDelete("/delete/:id")
+    @httpPut('/update', validate(userSchema.update), Types.AuthMiddleware)
+    async userUpdate(req: Request, res: Response, next: NextFunction) {
+        const id = req.user._id
+
+        try {
+            const user = await this.userService.update({ id, ...req.body })
+
+            res.jsonResponse(user, "success", 201)
+
+        } catch (error) {
+            handleError(error, req, res, next)
+        }
+    }
+
+    @httpDelete("/delete/:id", Types.AuthMiddleware, RoleMiddleware.roleCheckMiddleware([UserRole.Admin]))
     async deleteRequest(req: Request, res: Response, next: NextFunction) {
         const { id } = req.params
         try {
@@ -94,7 +108,7 @@ export class UserController {
         }
     }
 
-    @httpGet("/", validate(userSchema.search))
+    @httpGet("/", Types.AuthMiddleware, RoleMiddleware.roleCheckMiddleware([UserRole.Admin]), validate(userSchema.search))
     async getRequest(req: Request, res: Response, next: NextFunction) {
         try {
             const { name, page, limit } = req.query;

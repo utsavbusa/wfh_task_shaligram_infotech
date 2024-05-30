@@ -1,0 +1,42 @@
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "loose": true
+            }
+        ],
+        "@babel/preset-typescript"
+    ],
+    "plugins": [
+        "babel-plugin-transform-typescript-metadata",
+        [
+            "@babel/plugin-proposal-decorators",
+            {
+                "legacy": true
+            }
+        ],
+        [
+            "@babel/plugin-proposal-class-properties",
+            {
+                "loose": true
+            }
+        ],
+        [
+            "module-resolver",
+            {
+                "alias": {
+                    "@app": "./src",
+                    "@config": "./src/config/index.js",
+                    "@middleware": "./src/middleware/index.js",
+                    "@model": "./src/model/index.js",
+                    "@controller": "./src/controller/index.js",
+                    "@services": "./src/services/index.js",
+                    "@utils": "./src/utils/index.js",
+                    "@lib": "./src/lib/index.js",
+                    "@validation": "./src/validation/index.js"
+                }
+            }
+        ]
+    ]
+}

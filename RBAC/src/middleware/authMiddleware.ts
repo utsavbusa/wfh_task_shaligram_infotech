@@ -31,7 +31,7 @@ export class AuthMiddleware extends BaseMiddleware {
             const userRole: any = await UserModel.aggregate([
                 {
                     $match: {
-                        _id:new mongoose.Types.ObjectId(`${decodedToken._id}`)
+                        _id:new mongoose.Types.ObjectId(decodedToken._id as string)
                     }
                 },
                 {

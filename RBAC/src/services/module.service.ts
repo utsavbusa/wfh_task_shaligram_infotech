@@ -1,16 +1,10 @@
 import { injectable } from "inversify";
-import { IModule, ModuleModel } from "src/model/module.model";
 import mongoose from "mongoose";
-import { IRole, PermissionModel, RoleModel } from "@model";
+import { IRole, PermissionModel, RoleModel,ModuleModel,IModule } from "@model";
 import { ApiError } from "@utils";
 import { UserRole } from "@config";
 
-interface ISModule {
-    userId?: string,
-    name?: string,
-    page: number,
-    limit?: number
-}
+
 @injectable()
 export class ModuleService {
 
@@ -61,7 +55,7 @@ export class ModuleService {
 
     }
 
-    async update({ id, name }: { id: string, name: string }): Promise<IModule> {
+    async update(id:string,name:string): Promise<IModule> {
 
         if (!(await ModuleModel.findOne({
             $and: [
@@ -100,11 +94,5 @@ export class ModuleService {
         }
 
     }
-
-    //TODO get query is not working in module
-    async getModule({ userId, name, page, limit }: ISModule): Promise<void> {
-
-    }
-
 
 }

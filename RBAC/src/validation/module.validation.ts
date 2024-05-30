@@ -18,13 +18,5 @@ export const moduleSchema = {
         params:Joi.object({
             id:Joi.string().required()
         }).options({ allowUnknown: false })
-    },
-    get:{
-        query:Joi.object({
-            userId:Joi.string(),
-            name:Joi.string(),
-            page:Joi.number().integer().min(-1).required(),
-            limit:Joi.number()
-        }).options({ allowUnknown: false })
     }
 }

@@ -1,6 +1,8 @@
 {
     "ts-node": {
-        "require": ["tsconfig-paths/register"]
+        "require": [
+            "tsconfig-paths/register"
+        ]
     },
     "compilerOptions": {
         "target": "es6",
@@ -17,16 +19,38 @@
         "strictNullChecks": true,
         "resolveJsonModule": true,
         "paths": {
-            "@app": ["src/"],
-            "@config": ["src/config/index.ts"],
-            "@middleware":["src/middleware/index.ts"],
-            "@model":["src/model/index.ts"],
-            "@controller":["src/controller/index.ts"],
-            "@services":["src/services/index.ts"],
-            "@utils":["src/utils/index.ts"],
-            "@lib":["src/lib/index.ts"]
+            "@app": [
+                "src/"
+            ],
+            "@config": [
+                "src/config/index.ts"
+            ],
+            "@middleware": [
+                "src/middleware/index.ts"
+            ],
+            "@model": [
+                "src/model/index.ts"
+            ],
+            "@controller": [
+                "src/controller/index.ts"
+            ],
+            "@services": [
+                "src/services/index.ts"
+            ],
+            "@utils": [
+                "src/utils/index.ts"
+            ],
+            "@lib": [
+                "src/lib/index.ts"
+            ],
+            "@validation": [
+                "src/validation/index.ts"
+            ]
         }
     },
+    "include": [
+        "src"
+    ],
     "exclude": [
         "node_modules"
     ]
